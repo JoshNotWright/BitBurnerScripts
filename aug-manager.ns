@@ -3,7 +3,7 @@ export async function main(ns) {
     var desiredFactions = getDesiredFactions(ns);
     var currentFaction = "";
     while (true) {
-        var info = ns.getCharacterInformation();
+        var info = ns.getPlayer();
         var factions = info.factions;
         if (factions.length === 0) {
             await ns.sleep(5000);
@@ -30,7 +30,7 @@ export async function main(ns) {
                         await ns.sleep(100);
                     }
                     if (ns.getOwnedAugmentations(true).length > ns.getOwnedAugmentations(false).length) {
-                        ns.installAugmentations("daemon.ns");
+                        ns.installAugmentations("daemon.js");
                     }   
                 }
                 
@@ -73,7 +73,8 @@ export async function main(ns) {
                         await ns.sleep(100);
                     }
                     if (ns.getOwnedAugmentations(true).length > ns.getOwnedAugmentations(false).length) {
-                        ns.installAugmentations("daemon.ns");
+                        ns.installAugmentations("daemon.js");
+                        
                     }
                 }
             }
