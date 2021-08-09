@@ -10,7 +10,7 @@ export async function main(ns) {
         }
         // check if we're already a member of all the factions we want to be in
         var factionsJoinedCheck = true;
-        var info = ns.getCharacterInformation();
+        var info = ns.getPlayer();
         var alreadyInFactions = info.factions;
         for(var d in desiredFactions) {
             if (!alreadyInFactions.includes(d)) {
