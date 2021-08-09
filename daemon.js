@@ -482,7 +482,7 @@ async function performScheduling(ns, currentTarget) {
     var now = new Date(Date.now() + queueDelay);        
     var lastBatch = 0;
     
-    ns.print("Scheduling " + currentTarget.name + ", batches: " + maxCycles + " - anticipating an estimated " + Math.floor(currentTarget.timeToWeaken() * 2) + " second delay.");
+    ns.tprint("Scheduling " + currentTarget.name + ", batches: " + maxCycles + " - anticipating an estimated " + Math.floor(currentTarget.timeToWeaken() * 2) + " second delay.");
     while (canSchedule) {        
         var newBatchStart = (scheduledTasks.length === 0) ? now : new Date(lastBatch.getTime() + arbitraryExecutionDelay);
         lastBatch = new Date(newBatchStart.getTime());
@@ -676,7 +676,7 @@ async function prepServer(ns, currentTarget) {
         var threadsAllowable = weakenTool.getMaxThreads();        
         var trueThreads = Math.min(threadsAllowable, threadsNeeded);
         if (trueThreads > 0) {
-            ns.print("Prepping " + currentTarget.name + ", resting for " + Math.floor(threadSleep / 1000) + " seconds.");
+            ns.tprint("Prepping " + currentTarget.name + ", resting for " + Math.floor(threadSleep / 1000) + " seconds.");
             await arbitraryExecution(ns, weakenTool, trueThreads, [currentTarget.name, now.getTime(), now.getTime(), 0, "prep"]);            
         }
     }
