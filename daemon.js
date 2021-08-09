@@ -28,7 +28,7 @@ const arbitraryExecutionDelay = 12000;
 const queueDelay = 12000;
 
 // the max number of batches this daemon will spool up to avoid running out of IRL ram
-const maxBatches = 60;
+const maxBatches = 80;
 
 // the max number of targets this daemon will run workers against to avoid running out of IRL ram
 const maxTargets = 5;
