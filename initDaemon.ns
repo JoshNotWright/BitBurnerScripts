@@ -1,0 +1,51 @@
+const baseUrl = 'https://raw.githubusercontent.com/JoshNotWright/BitBurnerScripts/master/'
+const filesToDownload = [
+  'agency-manager.ns',
+  'aug-manager.ns',
+  'cascade-kill.js',
+  'daemon.js',
+  'farm-stats.js',
+  'grow-target.ns', 
+  'hack-target.ns',
+  'host-manager.ns',
+  'node-manager.ns',
+  'program-manager.ns',
+  'ram-manager.ns',
+  'stock-manager.ns',
+  'tor-manager.ns',
+  'weak-target.ns',
+]
+const valuesToRemove = ['BB_SERVER_MAP']
+
+function localeHHMMSS(ms = 0) {
+  if (!ms) {
+    ms = new Date().getTime()
+  }
+
+  return new Date(ms).toLocaleTimeString()
+}
+
+export async function main(ns) {
+  ns.tprint(`[${localeHHMMSS()}] Starting initDaemon.ns`)
+
+  let hostname = ns.getHostname()
+
+  if (hostname !== 'home') {
+    throw new Exception('Run the script from home')
+  }
+
+  for (let i = 0; i < filesToDownload.length; i++) {
+    const filename = filesToDownload[i]
+    const path = baseUrl + filename
+    await ns.scriptKill(filename, 'home')
+    await ns.rm(filename)
+    await ns.sleep(200)
+    ns.tprint(`[${localeHHMMSS()}] Trying to download ${path}`)
+    await ns.wget(path + '?ts=' + new Date().getTime(), filename)
+  }
+
+  valuesToRemove.map((value) => localStorage.removeItem(value))
+
+  ns.tprint(`[${localeHHMMSS()}] Spawning daemon.js`)
+  ns.spawn('daemon.js', 1)
+}
