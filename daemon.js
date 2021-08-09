@@ -157,7 +157,7 @@ async function runStartupScripts(ns) {
             var tool = getTool(helper.shortName);
             helper.isLaunched = await arbitraryExecution(ns, tool, 1, []);
             if (helper.isLaunched) {
-                ns.print("Server " + whichServerIsRunning(scriptName) + " running " + scriptName);
+                ns.tprint("Server " + whichServerIsRunning(scriptName) + " running " + scriptName);
             }
         }
     }
@@ -454,7 +454,7 @@ async function optimizePerformanceMetrics(ns, currentTarget) {
         await ns.sleep(10);
     }
     if (hasChanged) {        
-        ns.print("Tuning optimum threading on " + currentTarget.name + ", percentage: " + (Math.floor(currentTarget.actualPercentageToSteal() * 10000) / 100));
+        ns.tprint("Tuning optimum threading on " + currentTarget.name + ", percentage: " + (Math.floor(currentTarget.actualPercentageToSteal() * 10000) / 100));
     }
 }
 
