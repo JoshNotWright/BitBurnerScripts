@@ -1,0 +1,40 @@
+function spider() {
+    // Return an array of all identifiable servers
+    
+    // Create a serversSeen array, containing only 'home' for now
+    serversSeen = ['home'];
+
+    // For every server we've seen so far, do a scan
+    for (i = 0; i < serversSeen.length; i++) {
+        thisScan = scan(serversSeen[i]);
+        // Loop through results of the scan, and add any new servers
+        for (j = 0; j < thisScan.length; j++) {
+            // If this server isn't in serversSeen, add it
+            if (serversSeen.indexOf(thisScan[j]) === -1) {
+                serversSeen.push(thisScan[j]);
+            }
+        }
+    }
+    return serversSeen;
+}
+
+tprint("Starting scan. Expected to take around 15 minutes.");
+allServers = spider();
+
+serverMap = [
+    {name: "home", value: 1}
+];
+
+for (i = 0; i < allServers.length; i++) {
+    value = (getWeakenTime(allServers[i]) / getServerMinSecurityLevel(allServers[i]));
+    name = (allServers[i]);
+    toBeAdded = {name: name, value: value};
+    serverMap.push(toBeAdded);
+}
+
+var target = serverMap.reduce(function(prev, curr) {
+    return prev.value < curr.value ? prev : curr;
+});
+
+target = (target.name);
+run("blitz.script", 1, target);
