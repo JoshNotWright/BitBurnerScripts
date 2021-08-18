@@ -1,0 +1,42 @@
+hostname = getHostname();
+target = args[0];
+
+// Kills all other XP Blitz Instances running at home
+scriptKill("xp.script", hostname);
+
+// Calculates the amount of threads to run
+maxRam = getServerMaxRam(hostname);
+usedRam = getServerUsedRam(hostname);
+
+// If home has more than 64 GB of RAM, we'll leave 50 GB for various other scripts
+if (maxRam > 64) {
+    ramAvailable = (maxRam - usedRam - 50); 
+} else {
+    ramAvailable = (maxRam - usedRam - 1);
+}
+
+threads = (ramAvailable / 1.75);
+
+// Executes the script
+run("xp.script", threads, target);
+threads = nFormat(threads, "0,0");
+tprint("Launching XP Blitz against " + target + " on server " + hostname + " with " + threads + " threads");
+
+// Start on all servers
+servers = getPurchasedServers();
+for (i = 0; i < servers.length; i++) {
+    // Kills all other XP Blitz Instances running on other servers
+    scriptKill("xp.script", servers[i]);
+    
+    // Calculates the amount of threads to run
+    maxRam = getServerMaxRam(servers[i]);
+    usedRam = getServerUsedRam(servers[i]);
+    ramAvailable = (maxRam - usedRam - 1);
+    threads = (ramAvailable / 1.75);
+    
+    // Copies and executes the script
+    scp("xp.script", servers[i]);
+    exec("xp.script", servers[i], threads, target);
+    threads = nFormat(threads, "0,0");
+    tprint("Launching XP Blitz against " + target + " on server "  + servers[i] + " with " + threads + " threads");
+}
