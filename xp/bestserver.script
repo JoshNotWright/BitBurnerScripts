@@ -18,7 +18,7 @@ function spider() {
     return serversSeen;
 }
 
-tprint("Starting scan. Expected to take around 15 minutes.");
+tprint("Searching for optimal server. Expected to take around 15 minutes.");
 allServers = spider();
 
 serverMap = [
@@ -37,4 +37,6 @@ var target = serverMap.reduce(function(prev, curr) {
 });
 
 target = (target.name);
+tprint("Optimal server found: " + target);
+tprint("Launching XP Blitz...");
 run("blitz.script", 1, target);
