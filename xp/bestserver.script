@@ -19,10 +19,10 @@ function spider() {
 }
 
 var startFlags = flags([
-    ['start', false],
+    ['s', false],
 ]);
 
-if (startFlags.start == true) {
+if (startFlags.s == true) {
     target = "foodnstuff";
     run("blitz.script", 1, target);
     tprint("Searching for optimal server. Expected to take around 15 minutes. Starting on foodnstuff while we wait.");
