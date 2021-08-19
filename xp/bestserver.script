@@ -18,12 +18,25 @@ function spider() {
     return serversSeen;
 }
 
-tprint("Searching for optimal server. Expected to take around 15 minutes.");
-allServers = spider();
+var startFlags = flags([
+    ['start', false],
+]);
 
-serverMap = [
-    {name: "home", value: 1}
-];
+if (startFlags.start == true) {
+    target = "foodnstuff";
+    run("blitz.script", 1, target);
+    tprint("Searching for optimal server. Expected to take around 15 minutes. Starting on foodnstuff while we wait.");
+} else {
+    tprint("Searching for optimal server. Expected to take around 15 minutes.");
+}
+
+allServers = spider();
+index = allServers.indexOf("home");
+if (index > -1) {
+    allServers.splice(index, 1);
+}
+
+serverMap = [];
 
 for (i = 0; i < allServers.length; i++) {
     value = (getWeakenTime(allServers[i]) / getServerMinSecurityLevel(allServers[i]));
@@ -38,5 +51,4 @@ var target = serverMap.reduce(function(prev, curr) {
 
 target = (target.name);
 tprint("Optimal server found: " + target);
-tprint("Launching XP Blitz...");
 run("blitz.script", 1, target);
