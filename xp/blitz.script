@@ -1,5 +1,6 @@
 hostname = getHostname();
 target = args[0];
+var totalThreads = 0;
 
 // Kills all other XP Blitz Instances running at home
 scriptKill("xp.script", hostname);
@@ -33,6 +34,12 @@ for (i = 0; i < servers.length; i++) {
     usedRam = getServerUsedRam(servers[i]);
     ramAvailable = (maxRam - usedRam - 1);
     threads = (ramAvailable / 1.75);
+    if (threads < 1) {
+        break;
+    }
+    
+    // Adds to total thread count
+    totalThreads = (totalThreads + threads);
     
     // Copies and executes the script
     scp("xp.script", servers[i]);
@@ -40,3 +47,5 @@ for (i = 0; i < servers.length; i++) {
     threads = nFormat(threads, "0,0");
     tprint("Launching XP Blitz against " + target + " on server "  + servers[i] + " with " + threads + " threads");
 }
+totalThreads = nFormat(totalThreads, "0,0");
+tprint("XP Blitz launched against " + target + " with " + totalThreads + " threads ");
