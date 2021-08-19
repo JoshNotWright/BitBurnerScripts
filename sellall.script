@@ -1,0 +1,13 @@
+symbols = getStockSymbols();
+
+for (i= 0; i < symbols.length; i++){
+        pos = getStockPosition(symbols[i]);
+        longShares = pos[0];
+        shortShares = pos[2];
+        if (longShares > 0) {
+            sellStock(symbols[i], longShares);
+        }
+        if (shortShares > 0) {
+            sellShort(symbols[i], shortShares);
+        } 
+}
