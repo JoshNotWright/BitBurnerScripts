@@ -34,6 +34,8 @@ for (i = 0; i < servers.length; i++) {
     usedRam = getServerUsedRam(servers[i]);
     ramAvailable = (maxRam - usedRam - 1);
     threads = (ramAvailable / 1.75);
+    
+    // If there's not enough RAM for even 1 thread, abort here
     if (threads < 1) {
         break;
     }
