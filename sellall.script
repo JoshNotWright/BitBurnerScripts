@@ -11,3 +11,8 @@ for (i= 0; i < symbols.length; i++){
             sellShort(symbols[i], shortShares);
         } 
 }
+
+totalProfit = getRunningScript("sellall.script", getHostname());
+totalProfit = (totalProfit.onlineMoneyMade);
+totalProfit = nFormat(totalProfit, "$0.000a");
+tprint("Sold all stocks and made " + totalProfit);
