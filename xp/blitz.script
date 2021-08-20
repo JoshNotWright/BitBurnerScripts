@@ -2,6 +2,13 @@ hostname = getHostname();
 target = args[0];
 var totalThreads = 0;
 
+var startFlags = flags([
+    ['h', false],
+   // ['target', "foodnstuff"],
+]);
+
+// target = startFlags.target;
+
 // Kills all other XP Blitz Instances running at home
 scriptKill("xp.script", hostname);
 
@@ -33,9 +40,12 @@ for (i = 0; i < servers.length; i++) {
     maxRam = getServerMaxRam(servers[i]);
     usedRam = getServerUsedRam(servers[i]);
     ramAvailable = (maxRam - usedRam - 1);
-    threads = (ramAvailable / 1.75);
+    if (startFlags.h == true) {
+        threads = ((ramAvailable / 1.75) / 2);
+    } else {
+        threads = (ramAvailable / 1.75);
+    }
     
-    // If there's not enough RAM for even 1 thread, abort here
     if (threads < 1) {
         break;
     }
