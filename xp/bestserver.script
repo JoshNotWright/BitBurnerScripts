@@ -20,12 +20,17 @@ function spider() {
 
 var startFlags = flags([
     ['s', false],
+    ['h', false],
 ]);
 
 if (startFlags.s == true) {
     target = "foodnstuff";
-    run("blitz.script", 1, target);
+    
     tprint("Searching for optimal server. Expected to take around 15 minutes. Starting on foodnstuff while we wait.");
+    if (startFlags.h == true) {
+        run("blitz.script", 1, target, "-h");
+    } else { run("blitz.script", 1, target);
+        }
 } else {
     tprint("Searching for optimal server. Expected to take around 15 minutes.");
 }
@@ -51,4 +56,7 @@ var target = serverMap.reduce(function(prev, curr) {
 
 target = (target.name);
 tprint("Optimal server found: " + target);
+if (startFlags.h == true) {
+    run("blitz.script", 1, target, "-h");
+}
 run("blitz.script", 1, target);
